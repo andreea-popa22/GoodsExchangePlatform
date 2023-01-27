@@ -1,61 +1,98 @@
 package com.ge.exchange.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
-@Table(name = "USER")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
-    private String surname;
-    private String address;
+    private Integer id;
+
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    @NotNull
+    private String password;
+
+    @NotBlank
+    @Column(name = "first_name")
+    private String firstName;
+    @NotBlank
+    @Column(name = "last_name")
+    private String lastName;
+    @NotBlank
+    @NotNull
     private String city;
-    private String phone;
+
+    private String role;
 
     public User() {
+
     }
 
-    public User(int id, String name, String surname, String address, String city, String phone) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
+    public User(String email, String password, String firstName, String lastName, String city, String role) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.city = city;
-        this.phone = phone;
+        this.role = role;
     }
 
-    public int getId() {
+    public User(int id, String email, String password, String firstName, String lastName, String city, String role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.role = role;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getCity() {
@@ -66,11 +103,11 @@ public class User {
         this.city = city;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getRole() {
+        return role;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -16,10 +17,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/add")
-    public String add(@RequestBody User user){
-        userService.saveUser(user);
-        return "User addedd";
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUserAccount(@RequestBody @Valid User user) {
+        User savedUser = userService.save(user);
+        return ResponseEntity.ok().body(savedUser);
     }
 
     @GetMapping("/get/{id}")
