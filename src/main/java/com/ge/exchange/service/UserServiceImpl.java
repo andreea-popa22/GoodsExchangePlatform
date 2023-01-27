@@ -20,31 +20,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User updateUser(User userInput) {
-        User user = userRepository.getById(userInput.getId());
-        user.setEmail(userInput.getEmail());
-        user.setPassword(userInput.getPassword());
-        user.setFirstName(userInput.getFirstName());
-        user.setLastName(userInput.getLastName());
-        user.setCity(userInput.getCity());
-        return userRepository.save(user);
-    }
-
-    public String deleteUser(int id) {
-        userRepository.deleteById(id);
-        return "User removed!";
-    }
-    public User findUserById(int id) {
-        User user = userRepository.findById(id).orElse(null);
-        return user;
-    }
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -66,12 +41,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User changeData(User userInput) {
+        User user = userRepository.getById(userInput.getId());
+        user.setEmail(userInput.getEmail());
+        user.setPassword(userInput.getPassword());
+        user.setFirstName(userInput.getFirstName());
+        user.setLastName(userInput.getLastName());
+        user.setCity(userInput.getCity());
+        return userRepository.save(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
         User user = userRepository.findByEmail(username);
         if(user == null) {
-            throw new UsernameNotFoundException("Invalid username or password!");
+            throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singleton(mapRolesToAuthorities(user.getRole())));
     }

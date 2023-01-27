@@ -23,29 +23,8 @@ public class UserController {
         return ResponseEntity.ok().body(savedUser);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<User> get(@PathVariable(value = "id") int id) throws ResourceNotFoundException {
-        try {
-            User user = userService.findUserById(id);
-            return ResponseEntity.ok().body(user);
-        }
-        catch (Exception e) {
-            throw new ResourceNotFoundException("User not found with this id: " + id);
-        }
-    }
-
-    @GetMapping("/getAll")
-    public List<User> list(){
-        return userService.getAllUsers();
-    }
-
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) {
-        return userService.updateUser(user);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable int id) {
-        return userService.deleteUser(id);
+        return userService.changeData(user);
     }
 }
