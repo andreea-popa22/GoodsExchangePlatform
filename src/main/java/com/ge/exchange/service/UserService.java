@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     User save(User user);
-    User changeData(User userDto);
+    User update(User userDto);
 }
