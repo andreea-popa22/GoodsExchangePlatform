@@ -1,15 +1,14 @@
 package com.ge.exchange.service;
 
 import com.ge.exchange.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService {
-    public User saveUser(User user);
-    public List<User> getAllUsers();
-    public User updateUser(User user);
-    public String deleteUser(int id);
-    public User findUserById(int id);
-
+public interface UserService extends UserDetailsService {
+    User save(User user);
+    User update(User userDto);
 }
