@@ -1,29 +1,23 @@
-package com.ge.exchange.model;
+package com.ge.exchange.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "USER" ,uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+public class UserDto {
+    @NotNull
     private Integer userId;
 
     @NotBlank
+    @NotNull
     private String email;
 
     @NotBlank
@@ -31,15 +25,18 @@ public class User {
     private String password;
 
     @NotBlank
-    @Column(name = "first_name")
+    @NotNull
     private String firstName;
+
     @NotBlank
-    @Column(name = "last_name")
+    @NotNull
     private String lastName;
+
     @NotBlank
     @NotNull
     private String city;
 
+    @NotBlank
+    @NotNull
     private String role;
-
 }
