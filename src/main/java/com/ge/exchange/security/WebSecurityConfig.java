@@ -38,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers( "/post/get/{id}", "/post/getAll").hasRole("USER")
         .antMatchers("/requestddd/*", "/postdddd/*").hasAnyRole("USER", "ADMIN")
         .antMatchers("/user/register", "/user/login").permitAll()
+        .antMatchers("/hello").permitAll()
+        .antMatchers("/").permitAll()
         .anyRequest()
         .authenticated()
         .and()
