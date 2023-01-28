@@ -30,19 +30,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User userRegistration) {
-        User user = new User(
-                userRegistration.getEmail(),
-                passwordEncoder.encode(userRegistration.getPassword()),
-                userRegistration.getFirstName(),
-                userRegistration.getLastName(),
-                userRegistration.getCity(),
-                "ROLE_USER");
-        return userRepository.save(user);
+//        User user = new User(
+//                userRegistration.getEmail(),
+//                passwordEncoder.encode(userRegistration.getPassword()),
+//                userRegistration.getFirstName(),
+//                userRegistration.getLastName(),
+//                userRegistration.getCity(),
+//                "ROLE_USER");
+        userRegistration.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
+        userRegistration.setRole("ROLE_USER");
+        return userRepository.save(userRegistration);
     }
 
     @Override
     public User update(User userInput) {
-        User user = userRepository.getById(userInput.getId());
+        User user = userRepository.getById(userInput.getUserId());
         user.setEmail(userInput.getEmail());
         user.setPassword(userInput.getPassword());
         user.setFirstName(userInput.getFirstName());

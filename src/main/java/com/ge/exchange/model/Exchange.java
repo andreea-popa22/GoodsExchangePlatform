@@ -1,26 +1,29 @@
 package com.ge.exchange.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "POST")
-public class Post {
+@Table(name = "EXCHANGE")
+public class Exchange {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int postId;
-    private String title;
-    private String category;
-    private String date;
-    private String content;
-    private int authorId;
+    private int exchangeId;
+
+    private int requestId;
+
+    private Date date;
+
+    private String location;
+
+    private Status status;
 }
