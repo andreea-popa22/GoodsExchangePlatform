@@ -32,7 +32,7 @@ public class PostServiceImpl implements PostService {
     }
 
     public Post updatePost(Post post) {
-        Post existingPost = postRepository.findById(post.getId()).orElse(null);
+        Post existingPost = postRepository.findById(post.getPostId()).orElse(null);
         existingPost.setTitle(post.getTitle());
         existingPost.setCategory(post.getCategory());
         existingPost.setDate(post.getDate());

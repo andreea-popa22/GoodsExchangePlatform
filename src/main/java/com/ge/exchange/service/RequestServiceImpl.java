@@ -32,7 +32,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     public Request updateRequest(Request request) {
-        Request existingRequest = requestRepository.findById(request.getId()).orElse(null);
+        Request existingRequest = requestRepository.findById(request.getRequestId()).orElse(null);
         existingRequest.setReceiver(request.getReceiver());
         existingRequest.setRequester(request.getRequester());
         return requestRepository.save(existingRequest);
