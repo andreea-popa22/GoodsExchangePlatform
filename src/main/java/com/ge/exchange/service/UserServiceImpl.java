@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singleton(mapRolesToAuthorities(user.getRole())));
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     private SimpleGrantedAuthority mapRolesToAuthorities(String role){
         return new SimpleGrantedAuthority(role);
     }

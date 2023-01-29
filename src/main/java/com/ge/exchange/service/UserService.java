@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
     User save(User user);
     User update(User userDto);
+    User findByEmail(String email);
 }

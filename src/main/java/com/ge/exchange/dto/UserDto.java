@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -16,12 +18,11 @@ public class UserDto {
     @NotNull
     private Integer userId;
 
-    @NotBlank
-    @NotNull
+    @NotEmpty(message = "Email should not be empty")
+    @Email
     private String email;
 
-    @NotBlank
-    @NotNull
+    @NotEmpty(message = "Password should not be empty")
     private String password;
 
     @NotBlank
