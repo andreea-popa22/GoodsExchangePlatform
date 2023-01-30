@@ -23,11 +23,11 @@ public class Message {
     private int messageId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
     private User receiver;
 
     @NotBlank

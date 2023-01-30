@@ -20,11 +20,11 @@ public class Request {
     private int requestId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "requester_id", referencedColumnName = "user_id")
     private User requester;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
     private User receiver;
 
     @OneToOne(mappedBy = "request")

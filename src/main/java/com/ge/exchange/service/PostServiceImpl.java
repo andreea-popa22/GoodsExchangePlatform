@@ -37,7 +37,7 @@ public class PostServiceImpl implements PostService {
         existingPost.setCategory(post.getCategory());
         existingPost.setDate(post.getDate());
         existingPost.setContent(post.getContent());
-        existingPost.setAuthorId(post.getAuthorId());
+        existingPost.setAuthor(post.getAuthor());
         return postRepository.save(existingPost);
     }
 }
