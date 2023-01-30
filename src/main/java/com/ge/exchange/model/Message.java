@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Builder
@@ -17,11 +19,18 @@ import java.util.Date;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_id")
     private int messageId;
 
-    private int senderId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User sender;
 
-    private int receiverId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User receiver;
 
+    @NotBlank
+    @NotNull
     private String content;
 }

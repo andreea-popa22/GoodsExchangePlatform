@@ -1,12 +1,14 @@
 package com.ge.exchange.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Builder
 @Data
@@ -17,10 +19,25 @@ import javax.persistence.*;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private int postId;
+
+    @NotBlank
+    @NotNull
     private String title;
-    private String category;
-    private String date;
+
+    @NotBlank
+    @NotNull
+    private PostCategory category;
+
+    @NotNull
+    private Date date;
+
+    @NotBlank
+    @NotNull
     private String content;
-    private int authorId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User author;
 }

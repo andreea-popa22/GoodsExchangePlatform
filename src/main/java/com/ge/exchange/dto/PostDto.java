@@ -1,5 +1,6 @@
 package com.ge.exchange.dto;
 
+import com.ge.exchange.model.PostCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Builder
 @Data
@@ -22,11 +24,11 @@ public class PostDto {
 
     @NotNull
     @NotBlank
-    private String category;
+    private PostCategory category;
 
     @NotNull
     @NotBlank
-    private String date;
+    private Date date;
 
     @NotNull
     @NotBlank

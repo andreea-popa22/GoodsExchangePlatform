@@ -16,8 +16,17 @@ import javax.persistence.*;
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "request_id")
     private int requestId;
-    private int requester;
-    private int receiver;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User requester;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User receiver;
+
+    @OneToOne(mappedBy = "request")
+    private Exchange exchange;
 }

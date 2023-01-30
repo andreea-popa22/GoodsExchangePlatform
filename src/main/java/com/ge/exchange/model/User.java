@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "USER" ,uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "USER", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 
     @Id
@@ -24,6 +24,7 @@ public class User {
     private Integer userId;
 
     @NotBlank
+    @NotNull
     private String email;
 
     @NotBlank
@@ -33,13 +34,31 @@ public class User {
     @NotBlank
     @Column(name = "first_name")
     private String firstName;
+
     @NotBlank
     @Column(name = "last_name")
     private String lastName;
+
     @NotBlank
     @NotNull
     private String city;
 
+    @NotBlank
+    @NotNull
     private String role;
 
+    @OneToMany(mappedBy = "requester")
+    List<Request> requestsForRequester;
+
+    @OneToMany(mappedBy = "receiver")
+    List<Request> requestsForReceiver;
+
+    @OneToMany(mappedBy = "sender")
+    List<Message> messagesAsSender;
+
+    @OneToMany(mappedBy = "receiver")
+    List<Message> messagesAsReceiver;
+
+    @OneToMany(mappedBy = "author")
+    List<Post> posts;
 }
