@@ -16,8 +16,11 @@ public class RequestDto {
     private int requestId;
 
     @NotNull
-    private int requester;
+    private int requesterId;
 
     @NotNull
-    private int receiver;
+    private int receiverId;
+
+    @NotNull
+    private int exchangeId;
 }

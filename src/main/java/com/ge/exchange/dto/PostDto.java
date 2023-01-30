@@ -24,7 +24,7 @@ public class PostDto {
 
     @NotNull
     @NotBlank
-    private PostCategory category;
+    private String category;
 
     @NotNull
     @NotBlank

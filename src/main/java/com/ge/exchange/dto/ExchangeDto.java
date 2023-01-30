@@ -30,5 +30,5 @@ public class ExchangeDto {
 
     @NotBlank
     @NotNull
-    private Status status;
+    private String status;
 }
