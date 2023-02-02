@@ -29,6 +29,7 @@ public class PostMapper {
                 PostCategory.valueOf(postDto.getCategory()),
                 postDto.getDate(),
                 postDto.getContent(),
+                postDto.getPhotoSource(),
                 author.get());
     }
 
@@ -38,6 +39,7 @@ public class PostMapper {
                 post.getCategory().toString(),
                 post.getDate(),
                 post.getContent(),
+                post.getPhotoSource(),
                 post.getAuthor().getUserId());
     }
 }

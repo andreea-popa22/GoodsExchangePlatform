@@ -1,7 +1,8 @@
-package com.ge.exchange.service;
+package com.ge.exchange.service.impl;
 
 import com.ge.exchange.model.Request;
 import com.ge.exchange.repository.RequestRepository;
+import com.ge.exchange.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,8 @@
-package com.ge.exchange.service;
+package com.ge.exchange.service.impl;
 
 import com.ge.exchange.model.User;
 import com.ge.exchange.repository.UserRepository;
+import com.ge.exchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -28,6 +28,7 @@ public class Post {
 
     @NotBlank
     @NotNull
+    @Enumerated(EnumType.STRING)
     private PostCategory category;
 
     @NotNull
@@ -37,7 +38,10 @@ public class Post {
     @NotNull
     private String content;
 
+    @Column(name = "photo_source")
+    private String photoSource;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private User author;
 }

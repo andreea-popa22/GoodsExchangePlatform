@@ -34,6 +34,8 @@ public class PostDto {
     @NotBlank
     private String content;
 
+    private String photoSource;
+
     @NotNull
     private int authorId;
 }

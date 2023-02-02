@@ -1,14 +1,10 @@
 package com.ge.exchange.controller;
 
-import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.model.User;
 
-import javax.servlet.ServletException;
 import javax.validation.Valid;
 
 import com.ge.exchange.service.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class AuthController {
@@ -28,25 +23,22 @@ public class AuthController {
         this.userService = userService;
     }
 
-//    @GetMapping("index")
-//    public String home(){
-//        return "index";
-//    }
 
     @GetMapping("/login")
     public String loginForm() {
         return "login";
     }
 
-    //    @PostMapping("/login")
+//    @PostMapping("/login")
 //    public String login(String username, String password, HttpServletRequest request) {
 //        try {
-//            request.login(username, password);
+//             request.login(username, password);
 //            return "redirect:/hello";
 //        } catch (ServletException e) {
 //            return "redirect:/login?error";
 //        }
 //    }
+
     // handler method to handle user registration request
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -72,12 +64,4 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    @GetMapping("/hello")
-    public String displayHello(Principal principal) {
-        var a =principal.getName();
-
-        //List<User> = userService.findByEmail(principal.)                      //TODO maybe use DTO
-        //model.addAttribute("users", currentUser);
-        return "helloV";
-    }
 }

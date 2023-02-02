@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 .successHandler((request, response, authentication) -> {
                                     log.info("User '{}' has been authenticated successfully", authentication.getName());
                                 })
-                                .defaultSuccessUrl("/hello",true)
+                                .defaultSuccessUrl("/home",true)
                                 .permitAll()
                 )
 
