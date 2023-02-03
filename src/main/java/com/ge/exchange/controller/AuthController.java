@@ -1,5 +1,8 @@
 package com.ge.exchange.controller;
 
+import com.ge.exchange.dto.UserDto;
+import com.ge.exchange.exception.ResourceNotFoundException;
+import com.ge.exchange.mappers.UserMapper;
 import com.ge.exchange.model.User;
 
 import javax.validation.Valid;
@@ -18,9 +21,11 @@ import java.security.Principal;
 public class AuthController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
 
@@ -49,17 +54,18 @@ public class AuthController {
 
     // handler method to handle register user form submit request
     @PostMapping("/register/save")
-    public String registration(@Valid @ModelAttribute("user") User user, //TODO use DTO implement mapper
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto, //TODO use DTO implement mapper
                                BindingResult result,
-                               Model model) {
-        User existing = userService.findByEmail(user.getEmail());
+                               Model model) throws ResourceNotFoundException {
+        UserDto existing = userService.findUserByEmail(userDto.getEmail());
         if (existing != null) {
             result.rejectValue("email", null, "There is already an account registered with that email");
         }
         if (result.hasErrors()) {
-            model.addAttribute("user", user);
+            model.addAttribute("user", userDto);
             return "register";
         }
+        User user = userMapper.fromUserDto(userDto);
         userService.save(user);
         return "redirect:/login";
     }

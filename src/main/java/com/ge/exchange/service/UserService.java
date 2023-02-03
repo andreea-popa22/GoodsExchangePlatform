@@ -1,5 +1,7 @@
 package com.ge.exchange.service;
 
+import com.ge.exchange.dto.UserDto;
+import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,5 +13,5 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
     User save(User user);
     User update(User userDto);
-    User findByEmail(String email);
+    UserDto findUserByEmail(String email) throws ResourceNotFoundException;
 }

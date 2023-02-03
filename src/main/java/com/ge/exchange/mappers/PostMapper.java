@@ -1,6 +1,7 @@
 package com.ge.exchange.mappers;
 
 import com.ge.exchange.dto.PostDto;
+import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.model.Post;
 import com.ge.exchange.model.PostCategory;
@@ -13,9 +14,11 @@ import java.util.Optional;
 @Component
 public class PostMapper {
     private UserRepository userRepository;
+    private UserMapper userMapper;
 
-    public PostMapper(UserRepository userRepository){
+    public PostMapper(UserRepository userRepository, UserMapper userMapper){
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public Post fromPostDto(PostDto postDto) throws ResourceNotFoundException {

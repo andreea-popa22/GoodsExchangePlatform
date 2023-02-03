@@ -1,19 +1,21 @@
 package com.ge.exchange.service.impl;
 
+import com.ge.exchange.dto.UserDto;
+import com.ge.exchange.exception.ResourceNotFoundException;
+import com.ge.exchange.mappers.UserMapper;
 import com.ge.exchange.model.User;
 import com.ge.exchange.repository.UserRepository;
 import com.ge.exchange.service.UserService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public UserServiceImpl(UserRepository userRepository) {
         super();
@@ -54,18 +59,22 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @SneakyThrows
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
-        if(user == null) {
-            throw new UsernameNotFoundException("Invalid username or password!");
-        }
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserDto userDto = findUserByEmail(email);
+        User user = userMapper.fromUserDto(userDto);
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singleton(mapRolesToAuthorities(user.getRole())));
     }
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserDto findUserByEmail(String email) throws ResourceNotFoundException {
+        Optional<User> user = userRepository.findUserByEmail(email);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("User with requested email does not exist.");
+        }
+        return userMapper.toUserDto(user.get());
+
     }
 
     private SimpleGrantedAuthority mapRolesToAuthorities(String role){

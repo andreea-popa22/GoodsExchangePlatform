@@ -1,6 +1,7 @@
 package com.ge.exchange.mappers;
 
 import com.ge.exchange.dto.RequestDto;
+import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.model.Exchange;
 import com.ge.exchange.model.Request;
@@ -15,10 +16,12 @@ import java.util.Optional;
 public class RequestMapper {
     private UserRepository userRepository;
     private ExchangeRepository exchangeRepository;
+    private UserMapper userMapper;
 
-    public RequestMapper(UserRepository userRepository, ExchangeRepository exchangeRepository){
+    public RequestMapper(UserRepository userRepository, ExchangeRepository exchangeRepository, UserMapper userMapper){
         this.userRepository = userRepository;
         this.exchangeRepository = exchangeRepository;
+        this.userMapper = userMapper;
     }
 
     public Request fromRequestDto(RequestDto requestDto) throws ResourceNotFoundException {

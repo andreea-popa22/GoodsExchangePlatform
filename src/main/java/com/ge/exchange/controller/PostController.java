@@ -4,11 +4,16 @@ package com.ge.exchange.controller;
 import com.ge.exchange.dto.PostDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.model.Post;
+import com.ge.exchange.model.User;
+import com.ge.exchange.repository.PostRepository;
 import com.ge.exchange.service.PostService;
+import com.ge.exchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -18,10 +23,18 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @GetMapping("/")
-    public List<PostDto> list(){
-        return postService.getAllPosts();
-    }
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private UserService userService;
+
+//    @GetMapping("/")
+//    public List<PostDto> list(Principal principal, Model model){
+//        var a = principal;
+//        User user = userService.findByEmail(a.getName());
+//        return postRepository.getPostsOfOthers(user.getUserId());
+//    }
 
     @PostMapping("/")
     public String add(@RequestBody Post post){

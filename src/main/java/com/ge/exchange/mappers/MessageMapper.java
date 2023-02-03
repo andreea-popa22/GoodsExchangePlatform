@@ -1,6 +1,7 @@
 package com.ge.exchange.mappers;
 
 import com.ge.exchange.dto.MessageDto;
+import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.model.Message;
 import com.ge.exchange.model.User;
@@ -13,12 +14,16 @@ import java.util.Optional;
 public class MessageMapper {
     private UserRepository userRepository;
 
-    public MessageMapper(UserRepository userRepository){
+    private UserMapper userMapper;
+
+    public MessageMapper(UserRepository userRepository, UserMapper userMapper){
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public Message fromMessageDto(MessageDto messageDto) throws ResourceNotFoundException {
-        Optional<User> sender = userRepository.findByUserId(messageDto.getSenderId());
+
+        Optional<User> sender= userRepository.findByUserId(messageDto.getSenderId());
         if (sender.isEmpty()) {
             throw new ResourceNotFoundException("Sender with id " + messageDto.getSenderId() + " does not exist.");
         }
