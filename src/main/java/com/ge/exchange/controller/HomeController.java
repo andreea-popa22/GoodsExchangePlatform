@@ -40,12 +40,13 @@ public class HomeController {
         String a = principal.getName();
         UserDto user = userService.findUserByEmail(a);
         List<Post> posts = postRepository.getPostsOfOthers(user.getUserId());
+        List<Post> filteredPosts = postService.filterPostsByUserCity(posts, user.getUserId());
 
-        List<PostDto> postDtos = posts.stream()
+        List<PostDto> postDtos = filteredPosts.stream()
                 .map(postMapper::toPostDto)
                 .collect(Collectors.toList());
         model.addAttribute("email", a);
-        model.addAttribute("posts", posts);
+        model.addAttribute("posts", postDtos);
         return "home";
     }
 }

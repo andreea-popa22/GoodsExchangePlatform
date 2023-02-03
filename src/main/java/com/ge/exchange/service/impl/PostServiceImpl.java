@@ -1,14 +1,19 @@
 package com.ge.exchange.service.impl;
 
 import com.ge.exchange.dto.PostDto;
+import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.mappers.PostMapper;
 import com.ge.exchange.model.Post;
+import com.ge.exchange.model.User;
 import com.ge.exchange.repository.PostRepository;
+import com.ge.exchange.repository.UserRepository;
 import com.ge.exchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +22,9 @@ public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
     @Autowired
     private PostMapper postMapper;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Post savePost(Post post) {
@@ -48,5 +56,16 @@ public class PostServiceImpl implements PostService {
         existingPost.setContent(post.getContent());
         existingPost.setAuthor(post.getAuthor());
         return postRepository.save(existingPost);
+    }
+
+    public List<Post> filterPostsByUserCity(List<Post> posts, int userId) throws ResourceNotFoundException {
+        Optional<User> user = userRepository.findByUserId(userId);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("User with requested email does not exist.");
+        }
+
+        return posts.stream()
+                .filter(p -> Objects.equals(p.getAuthor().getCity(), user.get().getCity()))
+                .collect(Collectors.toList());
     }
 }
