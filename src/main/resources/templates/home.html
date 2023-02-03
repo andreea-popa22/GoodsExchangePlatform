@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>GoodEx Platform</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css" media=”screen” />
+
+    <style>
+        .container {
+            display: flex !important;
+            flex-wrap: wrap !important;
+        }
+        #item {
+            flex: 0 0 33.333333%;
+        }
+    </style>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,23 +37,20 @@
         </div>
     </div>
 </nav>
+<h1 class="text-center" style="color: blue"> Explore offers</h1>
 <div class="container">
-    <div class="row">
-        <!-- <h1 class="text-center"> Welcome to GoodEx Platform, <span th:text="${email}"/> !</h1> !-->
-        <h1 class="text-center"> Explore offers</h1>
-
-        <div th:each="post:${posts}">
-            <div class="card" style="width: 20rem;">
-                <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
-                <div class="card-body">
-                    <h5 th:text="${post.getTitle()}"></h5>
-                    <p th:text="${post.getContent()}" class="card-text"></p>
-                    <a th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
-                </div>
+    <div id="item" th:each="post:${posts}">
+        <div class="card" style="width: 15rem; height: 30rem;">
+            <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
+            <div class="card-container">
+                <h5 th:text="${post.getTitle()}"></h5>
+                <p th:text="${post.getContent()}" class="card-text"></p>
+                <a style="position: absolute; bottom: 0" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
             </div>
-            <br> <br>
         </div>
+        <br> <br>
     </div>
+<!--    </div>-->
 </div>
 </body>
 </html>
