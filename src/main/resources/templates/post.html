@@ -26,22 +26,19 @@
     </div>
 </nav>
 <div class="container">
-    <div class="row">
-        <!-- <h1 class="text-center"> Welcome to GoodEx Platform, <span th:text="${email}"/> !</h1> !-->
-        <h1 class="text-center"> Explore offers</h1>
-
-        <div th:each="post:${posts}">
-            <div class="card" style="width: 20rem;">
-                <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
-                <div class="card-body">
-                    <h5 th:text="${post.getTitle()}"></h5>
-                    <p th:text="${post.getContent()}" class="card-text"></p>
-                    <a th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
-                </div>
+        <br> <br>
+        <div class="card" style="width: 25rem;">
+            <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
+            <div class="card-body">
+                <h5 th:text="${post.getTitle()}"></h5>
+                <p>Posted by: <span th:text="${post.getAuthor().getEmail()}"></span></p>
+                <p>Category: <span th:text="${post.getCategory()}"></span></p>
+                <p>Date posted: <span th:text="${post.getDate().toString().substring(0, 10)}"></span></p>
+                <p th:text="${post.getContent()}" class="card-text"></p>
+                <a class="btn btn-primary">Request change</a>
             </div>
-            <br> <br>
         </div>
-    </div>
+        <br> <br>
 </div>
 </body>
 </html>

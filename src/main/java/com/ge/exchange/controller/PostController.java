@@ -10,13 +10,14 @@ import com.ge.exchange.service.PostService;
 import com.ge.exchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/post")
 @CrossOrigin
 public class PostController {
@@ -29,13 +30,6 @@ public class PostController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping("/")
-//    public List<PostDto> list(Principal principal, Model model){
-//        var a = principal;
-//        User user = userService.findByEmail(a.getName());
-//        return postRepository.getPostsOfOthers(user.getUserId());
-//    }
-
     @PostMapping("/")
     public String add(@RequestBody Post post){
         postService.savePost(post);
@@ -43,10 +37,11 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> get(@PathVariable(value = "id") int id) throws ResourceNotFoundException {
+    public String get(@PathVariable(value = "id") int id, Model model) throws ResourceNotFoundException {
         try {
             Post post = postService.findPostById(id);
-            return ResponseEntity.ok().body(post);
+            model.addAttribute("post", post);
+            return "post";
         }
         catch (Exception e) {
             throw new ResourceNotFoundException("Post not found with this id: " + id);
