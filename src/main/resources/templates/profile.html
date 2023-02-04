@@ -24,7 +24,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home">Home</a>
+        <a class="navbar-brand" href="/home">GoodEx Platform</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -49,13 +49,16 @@
             <div class="card-container">
                 <h5 th:text="${post.getTitle()}"></h5>
                 <p th:text="${post.getContent()}" class="card-text"></p>
-                <a style="position: absolute; left: 33%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
-
+                <a style="position: absolute; left: 9%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
+<!--                <a style="position: absolute; left: 60%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-danger">Delete</a>-->
+                <form style="position: absolute; left: 60%; bottom: 2%" action="#" th:action="@{${'/post/delete/' + post.getPostId()}}" method="post" >
+                    <input  class="btn btn-danger" type="submit" value="Delete"/>
+                </form>
             </div>
         </div>
         <br> <br>
     </div>
-<!--    </div>-->
+    <!--    </div>-->
 </div>
 </body>
 </html>

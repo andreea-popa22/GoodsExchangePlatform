@@ -74,7 +74,15 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User with requested email does not exist.");
         }
         return userMapper.toUserDto(user.get());
+    }
 
+    @Override
+    public UserDto findUserById(Integer id) throws ResourceNotFoundException {
+        Optional<User> user = userRepository.findByUserId(id);
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("User with requested email does not exist.");
+        }
+        return userMapper.toUserDto(user.get());
     }
 
     private SimpleGrantedAuthority mapRolesToAuthorities(String role){

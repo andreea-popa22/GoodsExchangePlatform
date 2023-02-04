@@ -42,11 +42,12 @@ public class HomeController {
         List<Post> posts = postRepository.getPostsOfOthers(user.getUserId());
         List<Post> filteredPosts = postService.filterPostsByUserCity(posts, user.getUserId());
 
-        List<PostDto> postDtos = filteredPosts.stream()
+        List<PostDto> postDtos = posts.stream()
                 .map(postMapper::toPostDto)
                 .collect(Collectors.toList());
         model.addAttribute("email", a);
-        model.addAttribute("posts", postDtos);
+        model.addAttribute("currentUser", user.getUserId());
+        model.addAttribute("posts", posts);
         return "home";
     }
 }
