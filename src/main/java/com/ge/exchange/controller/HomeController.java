@@ -5,6 +5,7 @@ import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.mappers.PostMapper;
 import com.ge.exchange.model.Post;
+import com.ge.exchange.model.PostCategory;
 import com.ge.exchange.model.User;
 import com.ge.exchange.repository.PostRepository;
 import com.ge.exchange.service.PostService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping
@@ -40,11 +42,18 @@ public class HomeController {
         String a = principal.getName();
         UserDto user = userService.findUserByEmail(a);
         List<Post> posts = postRepository.getPostsOfOthers(user.getUserId());
-        List<Post> filteredPosts = postService.filterPostsByUserCity(posts, user.getUserId());
 
+        // filter by city
+        List<Post> filteredPosts = postService.filterPostsByUserCity(posts, user.getUserId());
         List<PostDto> postDtos = filteredPosts.stream()
                 .map(postMapper::toPostDto)
                 .collect(Collectors.toList());
+
+        List<String> postCategories = Stream.of(PostCategory.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+        model.addAttribute("postCategories", postCategories);
         model.addAttribute("email", a);
         model.addAttribute("posts", postDtos);
         return "home";

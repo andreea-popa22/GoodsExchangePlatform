@@ -3,6 +3,7 @@ package com.ge.exchange.controller;
 
 import com.ge.exchange.dto.PostDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
+import com.ge.exchange.mappers.PostMapper;
 import com.ge.exchange.model.Post;
 import com.ge.exchange.model.User;
 import com.ge.exchange.repository.PostRepository;
@@ -15,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -30,8 +34,13 @@ public class PostController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PostMapper postMapper;
+
     @PostMapping("/")
-    public String add(@RequestBody Post post){
+    public String add(@RequestBody PostDto postDto) throws ResourceNotFoundException {
+        postDto.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        Post post = postMapper.fromPostDto(postDto);
         postService.savePost(post);
         return "Post added";
     }
