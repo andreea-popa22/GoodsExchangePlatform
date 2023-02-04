@@ -45,6 +45,7 @@ public class HomeController {
 
         // filter by city
         List<Post> filteredPosts = postService.filterPostsByUserCity(posts, user.getUserId());
+
         List<PostDto> postDtos = filteredPosts.stream()
                 .map(postMapper::toPostDto)
                 .collect(Collectors.toList());
@@ -54,6 +55,7 @@ public class HomeController {
                 .collect(Collectors.toList());
 
         model.addAttribute("postCategories", postCategories);
+        model.addAttribute("currentUser", user.getUserId());
         model.addAttribute("email", a);
         model.addAttribute("posts", postDtos);
         return "home";

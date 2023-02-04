@@ -62,8 +62,10 @@ public class PostController {
         return postService.updatePost(post);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable int id) {
-        return postService.deletePost(id);
+    @RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
+    @ResponseBody
+    public String deleteProduct(@PathVariable(value = "id") int id) {
+         postService.deletePost(id);
+         return "profile";
     }
 }

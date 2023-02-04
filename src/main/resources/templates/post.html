@@ -27,7 +27,7 @@
 </nav>
 <div class="container">
         <br> <br>
-        <div class="card" style="width: 25rem;">
+        <div class="card" style="width: 25rem; margin: auto">
             <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
             <div class="card-body">
                 <h5 th:text="${post.getTitle()}"></h5>
@@ -35,7 +35,8 @@
                 <p>Category: <span th:text="${post.getCategory()}"></span></p>
                 <p>Date posted: <span th:text="${post.getDate().toString().substring(0, 10)}"></span></p>
                 <p th:text="${post.getContent()}" class="card-text"></p>
-                <a class="btn btn-primary">Request change</a>
+                <a class="btn btn-primary" style="display: flex; justify-content: center; ">Request change</a>
+
             </div>
         </div>
         <br> <br>

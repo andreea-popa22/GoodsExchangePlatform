@@ -14,4 +14,5 @@ public interface UserService extends UserDetailsService {
     User save(User user);
     User update(User userDto);
     UserDto findUserByEmail(String email) throws ResourceNotFoundException;
+    UserDto findUserById(Integer id) throws ResourceNotFoundException;
 }

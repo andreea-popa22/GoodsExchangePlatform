@@ -12,4 +12,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post,Integer> {
     @Query("select p from Post p where p.author.userId <> :userId")
     List<Post> getPostsOfOthers(int userId);
+
+    @Query("select p from Post p where p.author.userId = :userId")
+    List<Post> getPostsOfUser(int userId);
 }
