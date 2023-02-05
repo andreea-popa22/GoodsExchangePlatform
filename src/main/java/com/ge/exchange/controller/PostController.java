@@ -5,6 +5,7 @@ import com.ge.exchange.dto.PostDto;
 import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.mappers.PostMapper;
+import com.ge.exchange.mappers.UserMapper;
 import com.ge.exchange.model.Post;
 import com.ge.exchange.model.PostCategory;
 import com.ge.exchange.model.User;
@@ -50,16 +51,15 @@ public class PostController {
     @Autowired
     private PostMapper postMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/new")
     public String add(Model model, Principal principal) throws ResourceNotFoundException {
         List<String> postCategories = Stream.of(PostCategory.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
 
-//        PostDto postDto = new PostDto();
-//        postDto.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-//        UserDto user = userService.findUserByEmail(principal.getName());
-//        postDto.setAuthorId(user.getUserId());
         model.addAttribute("postCategories", postCategories);
         model.addAttribute("formData", new PostDto());
         return "newPost";
@@ -75,7 +75,7 @@ public class PostController {
         }
         Post post = postMapper.fromPostDto(postDto);
         postService.savePost(post);
-        return "Post added";
+        return "redirect:/post/" + post.getPostId();
     }
 
     @GetMapping("/{id}/chat")
@@ -89,13 +89,20 @@ public class PostController {
     public String get(@PathVariable(value = "id") int id, Model model, Principal principal) throws ResourceNotFoundException {
         try {
             Boolean isAuthor = false;
-            Integer currentUserId = userService.findUserByEmail(principal.getName()).getUserId();
+            UserDto currentUserDto = userService.findUserByEmail(principal.getName());
+            Integer currentUserId = currentUserDto.getUserId();
             Post post = postService.findPostById(id);
             if (Objects.equals(post.getAuthor().getUserId(), currentUserId)){
                 isAuthor = true;
             }
+
+            User user = userMapper.fromUserDto(currentUserDto);
+
+            List<String> titles = user.getPosts().stream().map(Post::getTitle).collect(Collectors.toList());
+            model.addAttribute("postsToChoose", titles);
             model.addAttribute("isAuthor", isAuthor);
             model.addAttribute("post", post);
+            model.addAttribute("postId", id);
             return "post";
         }
         catch (Exception e) {

@@ -39,7 +39,19 @@
                 <p>Category: <span th:text="${post.getCategory()}"></span></p>
                 <p>Date posted: <span th:text="${post.getDate().toString().substring(0, 10)}"></span></p>
                 <p th:text="${post.getContent()}" class="card-text"></p>
-                <a class="btn btn-primary" style="display: flex; justify-content: center; ">Request change</a>
+
+                <form
+                      th:action="@{/request/new}"
+                      method="post">
+                    <select name="postToChoose">
+                        <option th:each="v : ${postsToChoose}" th:value="${v}" th:text="${v}">
+                        </option>
+                    </select>
+                    <input type="hidden" name="postId" th:value="${postId}" />
+                    <br>
+                    <button type="submit" class="btn btn-primary" style="display: flex; justify-content: center; ">Request change</button>
+                    <br>
+                </form>
                 <br>
                 <a class="btn btn-primary" style="display: flex; justify-content: center; " th:href="@{${'/post/' + post.getPostId() + '/chat'}}">Chat with owner</a>
             </div>

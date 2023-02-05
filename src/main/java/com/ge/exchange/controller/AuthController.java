@@ -36,16 +36,6 @@ public class AuthController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String login(String username, String password, HttpServletRequest request) {
-//        try {
-//             request.login(username, password);
-//            return "redirect:/hello";
-//        } catch (ServletException e) {
-//            return "redirect:/login?error";
-//        }
-//    }
-
     // handler method to handle user registration request
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
