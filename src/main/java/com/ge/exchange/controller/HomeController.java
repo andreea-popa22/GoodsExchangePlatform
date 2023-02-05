@@ -50,11 +50,6 @@ public class HomeController {
                 .map(postMapper::toPostDto)
                 .collect(Collectors.toList());
 
-        List<String> postCategories = Stream.of(PostCategory.values())
-                .map(Enum::name)
-                .collect(Collectors.toList());
-
-        model.addAttribute("postCategories", postCategories);
         model.addAttribute("currentUser", user.getUserId());
         model.addAttribute("email", a);
         model.addAttribute("posts", postDtos);

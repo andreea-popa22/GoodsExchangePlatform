@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GoodEx Platform</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/home">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+                    <li class="nav-item" >
+                        <a class="nav-link active" style="position: relative; left: 78rem" aria-current="page" th:href="@{${'/user/' + currentUser}}">My profile</a>
+                    </li>
+                    <li class="nav-item" >
+                        <a class="nav-link active" style="position: relative; left: 80rem" aria-current="page" th:href="@{/logout}">Log out</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="container">
+        <h1>Add a new post</h1>
+        <div class="card" style="width: 25rem; height: 30rem;">
+            <form th:object="${formData}"
+                  th:action="@{/post/}"
+                  method="post" style="margin-left: 1rem; margin-top: 1rem;">
+                <div>
+                    <label for="title">Title</label>
+                    <br>
+                    <input id="title" type="text"
+                           th:field="*{title}">
+                    <p th:if="${#fields.hasErrors('title')}"
+                       th:text="${#strings.listJoin(#fields.errors('title'), ', ')}"></p>
+                </div>
+                <div>
+                    <label for="content">Content</label>
+                    <br>
+                    <input id="content" type="text"
+                           th:field="*{content}">
+                    <p th:if="${#fields.hasErrors('content')}"
+                       th:text="${#strings.listJoin(#fields.errors('content'), ', ')}"></p>
+                </div>
+                <div>
+                    <label for="photoSource">Photo URL</label>
+                    <br>
+                    <input id="photoSource" type="text"
+                           th:field="*{photoSource}">
+                    <p th:if="${#fields.hasErrors('photoSource')}"
+                       th:text="${#strings.listJoin(#fields.errors('photoSource'), ', ')}"></p>
+                </div>
+                <br>
+                <div>
+                    <select th:field="*{category}">
+                        <option th:each="v : ${postCategories}" th:value="${v}" th:text="${v}">
+                        </option>
+                    </select>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Add</button>
+                <br>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

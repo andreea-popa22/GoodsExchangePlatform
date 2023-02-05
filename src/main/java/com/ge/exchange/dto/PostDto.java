@@ -15,27 +15,17 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDto {
-    @NotNull
     private int postId;
 
-    @NotNull
-    @NotBlank
     private String title;
 
-    @NotNull
-    @NotBlank
     private String category;
 
-    @NotNull
-    @NotBlank
     private Date date;
 
-    @NotNull
-    @NotBlank
     private String content;
 
     private String photoSource;
 
-    @NotNull
     private int authorId;
 }

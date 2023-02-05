@@ -26,7 +26,6 @@ public class Post {
     @NotNull
     private String title;
 
-    @NotBlank
     @NotNull
     @Enumerated(EnumType.STRING)
     private PostCategory category;

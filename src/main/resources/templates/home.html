@@ -41,21 +41,26 @@
         </div>
     </div>
 </nav>
-<h1 class="text-center" style="color: blue"> Explore offers</h1>
-<div class="container">
-    <div id="item" th:each="post:${posts}">
-        <div class="card" style="width: 15rem; height: 30rem;">
-            <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
-            <div class="card-container">
-                <h5 th:text="${post.getTitle()}"></h5>
-                <p th:text="${post.getContent()}" class="card-text"></p>
-                <a style="position: absolute; left: 33%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
+<div>
+    <br>
+    <h1 class="text-center" style="color: midnightblue"> Explore offers</h1>
+    <br>
+    <a href="/post/new" class="btn btn-primary" style="float:right; margin-right: 5rem;">New post</a>
+    <br> <br>
+    <div class="container">
+        <div id="item" th:each="post:${posts}">
+            <div class="card" style="width: 15rem; height: 30rem;">
+                <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
+                <div class="card-container">
+                    <h5 th:text="${post.getTitle()}"></h5>
+                    <p th:text="${post.getContent()}" class="card-text"></p>
+                    <a style="position: absolute; left: 33%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
 
+                </div>
             </div>
+            <br> <br>
         </div>
-        <br> <br>
     </div>
-<!--    </div>-->
 </div>
 </body>
 </html>

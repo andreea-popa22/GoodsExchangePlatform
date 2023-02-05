@@ -2,24 +2,29 @@ package com.ge.exchange.controller;
 
 
 import com.ge.exchange.dto.PostDto;
+import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.mappers.PostMapper;
 import com.ge.exchange.model.Post;
+import com.ge.exchange.model.PostCategory;
 import com.ge.exchange.model.User;
 import com.ge.exchange.repository.PostRepository;
 import com.ge.exchange.service.PostService;
 import com.ge.exchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/post")
@@ -37,12 +42,32 @@ public class PostController {
     @Autowired
     private PostMapper postMapper;
 
+    @GetMapping("/new")
+    public String add(Model model, Principal principal) throws ResourceNotFoundException {
+        List<String> postCategories = Stream.of(PostCategory.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+//        PostDto postDto = new PostDto();
+//        postDto.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//        UserDto user = userService.findUserByEmail(principal.getName());
+//        postDto.setAuthorId(user.getUserId());
+        model.addAttribute("postCategories", postCategories);
+        model.addAttribute("formData", new PostDto());
+        return "newPost";
+    }
+
     @PostMapping("/")
-    public String add(@RequestBody PostDto postDto) throws ResourceNotFoundException {
+    public String add(@Valid @ModelAttribute("formData") PostDto postDto, BindingResult bindingResult, Principal principal) throws ResourceNotFoundException {
         postDto.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        UserDto user = userService.findUserByEmail(principal.getName());
+        postDto.setAuthorId(user.getUserId());
+        if (bindingResult.hasErrors()) {
+            return "redirect:/post/new";
+        }
         Post post = postMapper.fromPostDto(postDto);
         postService.savePost(post);
-        return "Post added";
+        return "redirect:/post/" + post.getPostId();
     }
 
     @GetMapping("/{id}")
