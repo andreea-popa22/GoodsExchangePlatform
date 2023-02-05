@@ -10,6 +10,7 @@ import com.ge.exchange.service.PostService;
 import com.ge.exchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,13 @@ public class PostController {
     public String add(@RequestBody Post post){
         postService.savePost(post);
         return "Post added";
+    }
+
+    @GetMapping("/chat")
+    public String chat(@PathVariable(value = "id") int id, Model model) {
+        model.addAttribute("sender", SecurityContextHolder. getContext().getAuthentication().getPrincipal());
+        model.addAttribute("receiver", postService.findPostById(id).getAuthor().getEmail());
+        return "chat";
     }
 
     @GetMapping("/{id}")

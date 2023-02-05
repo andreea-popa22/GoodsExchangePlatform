@@ -6,5 +6,6 @@ public enum PostCategory {
     FURNITURE,
     BOOKS,
     GROCERIES,
-    GADGETS
+    GADGETS,
+    CLOTHES
 }
