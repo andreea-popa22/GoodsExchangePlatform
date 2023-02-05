@@ -4,9 +4,11 @@ import com.ge.exchange.dto.RequestDto;
 import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.model.Exchange;
+import com.ge.exchange.model.Post;
 import com.ge.exchange.model.Request;
 import com.ge.exchange.model.User;
 import com.ge.exchange.repository.ExchangeRepository;
+import com.ge.exchange.repository.PostRepository;
 import com.ge.exchange.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +20,13 @@ public class RequestMapper {
     private ExchangeRepository exchangeRepository;
     private UserMapper userMapper;
 
-    public RequestMapper(UserRepository userRepository, ExchangeRepository exchangeRepository, UserMapper userMapper){
+    private PostRepository postRepository;
+
+    public RequestMapper(UserRepository userRepository, ExchangeRepository exchangeRepository, UserMapper userMapper, PostRepository postRepository){
         this.userRepository = userRepository;
         this.exchangeRepository = exchangeRepository;
         this.userMapper = userMapper;
+        this.postRepository = postRepository;
     }
 
     public Request fromRequestDto(RequestDto requestDto) throws ResourceNotFoundException {
@@ -40,9 +45,14 @@ public class RequestMapper {
             throw new ResourceNotFoundException("Exchange with id " + requestDto.getExchangeId() + " does not exist.");
         }
 
+        Optional<Post> requesterPost = postRepository.findById(requestDto.getRequesterPostId());
+        Optional<Post> receiverPost = postRepository.findById(requestDto.getReceiverPostId());
+
         return new Request(requestDto.getRequestId(),
                 requester.get(),
                 receiver.get(),
+                requesterPost.get(),
+                receiverPost.get(),
                 exchange.get());
     }
 
@@ -50,6 +60,8 @@ public class RequestMapper {
         return new RequestDto(request.getRequestId(),
                 request.getRequester().getUserId(),
                 request.getReceiver().getUserId(),
+                request.getRequesterPost().getPostId(),
+                request.getReceiverPost().getPostId(),
                 request.getExchange().getExchangeId());
     }
 }

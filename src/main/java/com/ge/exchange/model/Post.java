@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Data
@@ -43,4 +44,20 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
+
+    @OneToMany(mappedBy = "requesterPost")
+    List<Request> requests1;
+
+    @OneToMany(mappedBy = "receiverPost")
+    List<Request> requests2;
+
+    public Post(int postId, String title, PostCategory category, Date date, String content, String photoSource, User author) {
+        this.postId = postId;
+        this.title = title;
+        this.category = category;
+        this.date = date;
+        this.content = content;
+        this.photoSource = photoSource;
+        this.author = author;
+    }
 }

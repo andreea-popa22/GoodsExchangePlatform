@@ -27,6 +27,14 @@ public class Request {
     @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
     private User receiver;
 
+    @ManyToOne
+    @JoinColumn(name = "requester_post_id", referencedColumnName = "post_id")
+    private Post requesterPost;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_post_id", referencedColumnName = "post_id")
+    private Post receiverPost;
+
     @OneToOne(mappedBy = "request")
     private Exchange exchange;
 }

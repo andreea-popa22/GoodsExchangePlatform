@@ -12,15 +12,15 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestDto {
-    @NotNull
     private int requestId;
 
-    @NotNull
     private int requesterId;
 
-    @NotNull
     private int receiverId;
 
-    @NotNull
     private int exchangeId;
+
+    private int requesterPostId;
+
+    private int receiverPostId;
 }
