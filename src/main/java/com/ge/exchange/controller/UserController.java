@@ -56,6 +56,7 @@ public class UserController {
         UserDto user = userService.findUserById(id);
 //        model.addAttribute("email", a);
 
+        model.addAttribute("currentUser", user.getUserId());
         model.addAttribute("user", user);
 
         return "profile.html";
