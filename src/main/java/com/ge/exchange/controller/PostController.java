@@ -37,9 +37,9 @@ public class PostController {
         return "Post added";
     }
 
-    @GetMapping("/chat")
-    public String chat(@PathVariable(value = "id") int id, Model model) {
-        model.addAttribute("sender", SecurityContextHolder. getContext().getAuthentication().getPrincipal());
+    @GetMapping("/{id}/chat")
+    public String displayChat(@PathVariable(value = "id") int id, Model model) {
+        model.addAttribute("sender", SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("receiver", postService.findPostById(id).getAuthor().getEmail());
         return "chat";
     }

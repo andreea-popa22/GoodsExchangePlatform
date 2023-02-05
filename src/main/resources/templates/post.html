@@ -37,7 +37,7 @@
                 <p th:text="${post.getContent()}" class="card-text"></p>
                 <a class="btn btn-primary" style="display: flex; justify-content: center; ">Request change</a>
                 <br>
-                <a class="btn btn-primary" style="display: flex; justify-content: center; " th:href="@{/chat}">Chat with owner</a>
+                <a class="btn btn-primary" style="display: flex; justify-content: center; " th:href="@{${'/post/' + post.getPostId() + '/chat'}}">Chat with owner</a>
             </div>
         </div>
         <br> <br>

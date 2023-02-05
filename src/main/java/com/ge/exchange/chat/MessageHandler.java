@@ -17,7 +17,7 @@ public class MessageHandler {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @MessageMapping("/chat/{sender}/{receiver}")
+    @MessageMapping("/chat")
     public void handleMessage(@DestinationVariable String sender, @DestinationVariable String receiver, @Payload String message) {
         messagingTemplate.convertAndSend("/topic/messages/" + sender + "/" + receiver, message);
     }
