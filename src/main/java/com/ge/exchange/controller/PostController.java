@@ -99,6 +99,7 @@ public class PostController {
             User user = userMapper.fromUserDto(currentUserDto);
 
             List<String> titles = user.getPosts().stream().map(Post::getTitle).collect(Collectors.toList());
+            model.addAttribute("currentUser",user.getUserId());
             model.addAttribute("postsToChoose", titles);
             model.addAttribute("isAuthor", isAuthor);
             model.addAttribute("post", post);

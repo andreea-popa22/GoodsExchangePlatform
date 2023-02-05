@@ -5,9 +5,11 @@ import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.mappers.PostMapper;
 import com.ge.exchange.model.Post;
+import com.ge.exchange.model.Request;
 import com.ge.exchange.model.User;
 import com.ge.exchange.repository.PostRepository;
 import com.ge.exchange.service.PostService;
+import com.ge.exchange.service.RequestService;
 import com.ge.exchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +28,15 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-
     private final PostService postService;
+    private final RequestService requestService;
     private final PostRepository postRepository;
     private final PostMapper postMapper;
 
-    public UserController(UserService userService, PostService postService, PostRepository postRepository, PostMapper postMapper) {
+    public UserController(UserService userService, PostService postService, RequestService requestService, PostRepository postRepository, PostMapper postMapper) {
         this.userService = userService;
         this.postService = postService;
+        this.requestService = requestService;
         this.postRepository = postRepository;
         this.postMapper = postMapper;
     }
@@ -49,6 +52,20 @@ public class UserController {
         model.addAttribute("currentUser", user.getUserId());
         model.addAttribute("posts", posts);
         return "profilePosts.html";
+    }
+
+    @GetMapping("/{id}/requests")
+    public String get(@PathVariable(value = "id") int id, Model model, Principal principal) throws ResourceNotFoundException {
+        try {
+
+            List<Request> requests = requestService.getReceivedRequests(id);
+            model.addAttribute("requests", requests);
+            model.addAttribute("currentUser", id);
+            return "userRequests";
+        }
+        catch (Exception e) {
+            throw new ResourceNotFoundException("Request not found with this id: " + id);
+        }
     }
 
     @GetMapping("/{id}")

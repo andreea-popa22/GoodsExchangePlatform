@@ -10,4 +10,5 @@ public interface RequestService {
     public Request updateRequest(Request request);
     public String deleteRequest(int id);
     public Request findRequestById(int id);
+    public List<Request> getReceivedRequests(int id);
 }

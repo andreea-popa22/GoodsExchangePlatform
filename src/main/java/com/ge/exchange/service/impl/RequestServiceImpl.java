@@ -32,6 +32,11 @@ public class RequestServiceImpl implements RequestService {
         return request;
     }
 
+    @Override
+    public List<Request> getReceivedRequests(int id) {
+        return requestRepository.getReceivedRequests(id);
+    }
+
     public Request updateRequest(Request request) {
         Request existingRequest = requestRepository.findById(request.getRequestId()).orElse(null);
         existingRequest.setReceiver(request.getReceiver());

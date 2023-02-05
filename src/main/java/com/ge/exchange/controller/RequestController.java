@@ -13,8 +13,10 @@ import com.ge.exchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.PrinterURI;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -55,16 +57,7 @@ public class RequestController {
         return "Request added";
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Request> get(@PathVariable(value = "id") int id) throws ResourceNotFoundException {
-        try {
-            Request request = requestService.findRequestById(id);
-            return ResponseEntity.ok().body(request);
-        }
-        catch (Exception e) {
-            throw new ResourceNotFoundException("Request not found with this id: " + id);
-        }
-    }
+
 
     @GetMapping("/getAll")
     public List<Request> list(){
