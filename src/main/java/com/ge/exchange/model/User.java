@@ -53,12 +53,6 @@ public class User {
     @OneToMany(mappedBy = "receiver")
     List<Request> requestsForReceiver;
 
-    @OneToMany(mappedBy = "sender")
-    List<Message> messagesAsSender;
-
-    @OneToMany(mappedBy = "receiver")
-    List<Message> messagesAsReceiver;
-
     @OneToMany(mappedBy = "author")
     List<Post> posts;
 }

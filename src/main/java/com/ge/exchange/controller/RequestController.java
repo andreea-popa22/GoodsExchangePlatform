@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/request")
+@RequestMapping(value = "/request", headers = "Connection!=Upgrade")
 @CrossOrigin
 public class RequestController {
     @Autowired

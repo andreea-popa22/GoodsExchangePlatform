@@ -11,23 +11,31 @@ import com.ge.exchange.model.User;
 import com.ge.exchange.repository.PostRepository;
 import com.ge.exchange.service.PostService;
 import com.ge.exchange.service.UserService;
+import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping(value = "/post", headers = "Connection!=Upgrade")
 @CrossOrigin
 public class PostController {
     @Autowired
@@ -67,13 +75,26 @@ public class PostController {
         }
         Post post = postMapper.fromPostDto(postDto);
         postService.savePost(post);
-        return "redirect:/post/" + post.getPostId();
+        return "Post added";
+    }
+
+    @GetMapping("/{id}/chat")
+    public String displayChat(@PathVariable(value = "id") int id, Model model) {
+        model.addAttribute("sender", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("receiver", postService.findPostById(id).getAuthor().getEmail());
+        return "chat";
     }
 
     @GetMapping("/{id}")
-    public String get(@PathVariable(value = "id") int id, Model model) throws ResourceNotFoundException {
+    public String get(@PathVariable(value = "id") int id, Model model, Principal principal) throws ResourceNotFoundException {
         try {
+            Boolean isAuthor = false;
+            Integer currentUserId = userService.findUserByEmail(principal.getName()).getUserId();
             Post post = postService.findPostById(id);
+            if (Objects.equals(post.getAuthor().getUserId(), currentUserId)){
+                isAuthor = true;
+            }
+            model.addAttribute("isAuthor", isAuthor);
             model.addAttribute("post", post);
             return "post";
         }
@@ -89,8 +110,14 @@ public class PostController {
 
     @RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
     @ResponseBody
-    public String deleteProduct(@PathVariable(value = "id") int id) {
-         postService.deletePost(id);
-         return "profile";
+    public ResponseEntity<Void> deletePost(Principal principal,@PathVariable(value = "id") int id) throws ResourceNotFoundException {
+        String a = principal.getName();
+        UserDto user = userService.findUserByEmail(a);
+        postService.deletePost(id);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/user/{id}")
+                .buildAndExpand(user.getUserId().toString()).toUri();
+        return ResponseEntity.status(HttpStatus.FOUND).location(location).build();
     }
+
 }

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>GoodEx Platform</title>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.4.0/dist/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+
+  <style>
+    .container {
+      display: flex !important;
+      flex-wrap: wrap !important;
+    }
+    #item {
+      flex: 0 0 33.333333%;
+    }
+
+    #messages {
+      height: 300px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+    }
+
+    #messages li {
+      margin-bottom: 10px;
+    }
+
+    #messages .message-header {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    #chat-form {
+      margin-top: 20px;
+    }
+
+    #message-input {
+      padding: 5px;
+      width: 100%;
+      font-size: 14px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button[type="submit"] {
+      padding: 5px 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">Home</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+        <li class="nav-item" >
+          <a class="nav-link active" style="position: relative; left: 78rem" aria-current="page" th:href="@{${'/user/' + currentUser}}">My profile</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link active" style="position: relative; left: 80rem" aria-current="page" th:href="@{/logout}">Log out</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<h1 class="text-center" style="color: blue">Chat with users</h1>
+<div class="container">
+  <div>
+    <ul id="messages"></ul>
+  </div>
+
+  <form id="chat-form">
+    <input type="text" id="message-input" placeholder="Enter your message..." />
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    var sender = "[[${sender}]]";
+    var receiver = "[[${receiver}]]";
+    var socket = new SockJS('/chat');
+    var stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+      console.log('Connected: ' + frame);
+      stompClient.subscribe("/topic/messages/" + sender + "/" + receiver, function (message) {
+        var messageList = document.getElementById("messages");
+        var div = document.createElement("div");
+        var content = document.createTextNode(message.body);
+        div.appendChild(content);
+        messageList.appendChild(div);
+      });
+
+      stompClient.subscribe("/topic/messages/" + receiver + "/" + sender, function (message) {
+        var messageList = document.getElementById("messages");
+        var div = document.createElement("div");
+        var content = document.createTextNode(message.body);
+        div.appendChild(content);
+        messageList.appendChild(div);
+      });
+    });
+
+    document.getElementById("chat-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var input = document.getElementById("message-input");
+      stompClient.send("/topic/messages/" + sender + "/" + receiver, {}, JSON.stringify({message: input.value}));
+      input.value = "";
+    });
+  </script>
+</div>
+</body>
+</html>

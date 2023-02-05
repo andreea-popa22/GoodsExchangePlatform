@@ -1,7 +1,6 @@
 package com.ge.exchange.mappers;
 
 import com.ge.exchange.dto.UserDto;
-import com.ge.exchange.model.Message;
 import com.ge.exchange.model.Post;
 import com.ge.exchange.model.Request;
 import com.ge.exchange.model.User;
@@ -21,8 +20,6 @@ public class UserMapper {
     public User fromUserDto(UserDto userDto){
         List<Request> requestsForReceiver = userRepository.findRequestsForReceiver(userDto.getUserId());
         List<Request> requestsForRequester = userRepository.findRequestsForRequester(userDto.getUserId());
-        List<Message> messagesAsSender = userRepository.findMessagesForSender(userDto.getUserId());
-        List<Message> messagesAsReceiver = userRepository.findMessagesForReceiver(userDto.getUserId());
         List<Post> posts = userRepository.getPosts(userDto.getUserId());
         return new User(userDto.getUserId(),
                 userDto.getEmail(),
@@ -33,8 +30,6 @@ public class UserMapper {
                 userDto.getRole(),
                 requestsForRequester,
                 requestsForReceiver,
-                messagesAsSender,
-                messagesAsReceiver,
                 posts);
     }
 

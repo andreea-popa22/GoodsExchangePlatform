@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/request/get/{id}", "/request/getAll").hasRole("ADMIN")
         .antMatchers( "/post/get/{id}", "/post/getAll").hasRole("USER")
-        .antMatchers("/requestddd/*", "/postdddd/*").hasAnyRole("USER", "ADMIN")
+        .antMatchers("/requestddd/*", "/postdddd/*", "/chat", "/chat1/**").hasAnyRole("USER", "ADMIN")
         .antMatchers("/register/**", "/login").permitAll()
         .antMatchers("/hello").hasRole("USER")
         .antMatchers("/").permitAll()
