@@ -37,8 +37,8 @@ public class UserController {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
     }
-    @GetMapping("/{id}")
-    public String displayProfile(@PathVariable(value = "id") int id, Model model) throws ResourceNotFoundException {
+    @GetMapping("/{id}/posts")
+    public String displayProfilePosts(@PathVariable(value = "id") int id, Model model) throws ResourceNotFoundException {
         UserDto user = userService.findUserById(id);
         List<Post> posts = postRepository.getPostsOfUser(user.getUserId());
 
@@ -48,6 +48,17 @@ public class UserController {
 //        model.addAttribute("email", a);
         model.addAttribute("currentUser", user.getUserId());
         model.addAttribute("posts", posts);
+        return "profilePosts.html";
+    }
+
+    @GetMapping("/{id}")
+    public String displayProfile(@PathVariable(value = "id") int id, Model model) throws ResourceNotFoundException {
+        UserDto user = userService.findUserById(id);
+//        model.addAttribute("email", a);
+
+        model.addAttribute("currentUser", user.getUserId());
+        model.addAttribute("user", user);
+
         return "profile.html";
     }
 }

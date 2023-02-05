@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>GoodEx Platform</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css" media=”screen” />
+
+    <style>
+        .container {
+            display: flex !important;
+            flex-wrap: wrap !important;
+        }
+        #item {
+            flex: 0 0 33.333333%;
+        }
+    </style>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -35,34 +47,26 @@
         </div>
     </div>
 </nav>
+<br>
+<h1 class="text-center" style="color: midnightblue">My posts</h1>
+<br>
 <div class="container">
-        <br> <br>
-        <div class="card" style="width: 25rem; margin: auto">
+    <div id="item" th:each="post:${posts}">
+        <div class="card" style="width: 15rem; height: 30rem;">
             <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
-            <div class="card-body">
+            <div class="card-container">
                 <h5 th:text="${post.getTitle()}"></h5>
-                <p>Posted by: <span th:text="${post.getAuthor().getEmail()}"></span></p>
-                <p>Category: <span th:text="${post.getCategory()}"></span></p>
-                <p>Date posted: <span th:text="${post.getDate().toString().substring(0, 10)}"></span></p>
                 <p th:text="${post.getContent()}" class="card-text"></p>
-
-                <form th:if="${not isAuthor}"
-                      th:action="@{/request/new}"
-                      method="post">
-                    <select name="postToChoose">
-                        <option th:each="v : ${postsToChoose}" th:value="${v}" th:text="${v}">
-                        </option>
-                    </select>
-                    <input type="hidden" name="postId" th:value="${postId}" />
-                    <br>
-                    <button type="submit" class="btn btn-primary" style="display: flex; justify-content: center; ">Request change</button>
-                    <br>
+                <a style="position: absolute; left: 9%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
+<!--                <a style="position: absolute; left: 60%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-danger">Delete</a>-->
+                <form style="position: absolute; left: 60%; bottom: 2%" action="#" th:action="@{${'/post/delete/' + post.getPostId()}}" method="post" >
+                    <input  class="btn btn-danger" type="submit" value="Delete"/>
                 </form>
-                <br>
-                <a class="btn btn-primary" style="display: flex; justify-content: center; " th:href="@{${'/post/' + post.getPostId() + '/chat'}}">Chat with owner</a>
             </div>
         </div>
         <br> <br>
+    </div>
+    <!--    </div>-->
 </div>
 </body>
 </html>

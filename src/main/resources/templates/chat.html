@@ -71,7 +71,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent" >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
         <li class="nav-item" >
+          <a class="nav-link active" style="position: relative; left: 78rem" aria-current="page" th:href="@{${'/user/' + currentUser}}">Received requests</a>
+        </li>
+        <li class="nav-item" >
           <a class="nav-link active" style="position: relative; left: 78rem" aria-current="page" th:href="@{${'/user/' + currentUser}}">My profile</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link active" style="position: relative; left: 78rem" aria-current="page" th:href="@{${'/user/' + currentUser + '/posts'}}">My posts</a>
         </li>
         <li class="nav-item" >
           <a class="nav-link active" style="position: relative; left: 80rem" aria-current="page" th:href="@{/logout}">Log out</a>
