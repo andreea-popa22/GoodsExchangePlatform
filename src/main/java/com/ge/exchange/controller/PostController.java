@@ -15,6 +15,8 @@ import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,7 +75,14 @@ public class PostController {
         }
         Post post = postMapper.fromPostDto(postDto);
         postService.savePost(post);
-        return "redirect:/post/" + post.getPostId();
+        return "Post added";
+    }
+
+    @GetMapping("/{id}/chat")
+    public String chat(@PathVariable(value = "id") int id, Model model) {
+        model.addAttribute("sender", SecurityContextHolder. getContext().getAuthentication().getName());
+        model.addAttribute("receiver", postService.findPostById(id).getAuthor().getEmail());
+        return "chat";
     }
 
     @GetMapping("/{id}")

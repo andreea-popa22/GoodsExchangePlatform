@@ -93,23 +93,34 @@
   </form>
 
   <script>
+    var sender = "[[${sender}]]";
+    var receiver = "[[${receiver}]]";
     var socket = new SockJS('/chat');
     var stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
-      stompClient.subscribe('/topic/messages', function (message) {
+      stompClient.subscribe("/topic/messages/" + sender + "/" + receiver, function (message) {
         var messageList = document.getElementById("messages");
-        var li = document.createElement("li");
-        li.textContent = message.body;
-        messageList.appendChild(li);
+        var div = document.createElement("div");
+        var content = document.createTextNode(message.body);
+        div.appendChild(content);
+        messageList.appendChild(div);
+      });
+
+      stompClient.subscribe("/topic/messages/" + receiver + "/" + sender, function (message) {
+        var messageList = document.getElementById("messages");
+        var div = document.createElement("div");
+        var content = document.createTextNode(message.body);
+        div.appendChild(content);
+        messageList.appendChild(div);
       });
     });
 
     document.getElementById("chat-form").addEventListener("submit", function (event) {
       event.preventDefault();
       var input = document.getElementById("message-input");
-      stompClient.send("/topic/messages", {}, JSON.stringify({message: input.value}));
+      stompClient.send("/topic/messages/" + sender + "/" + receiver, {}, JSON.stringify({message: input.value}));
       input.value = "";
     });
   </script>
