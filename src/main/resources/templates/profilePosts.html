@@ -44,17 +44,23 @@
         </div>
     </div>
 </nav>
-<div class="container" style="margin: 0 auto; text-align: center; font-size: larger">
-    <div class="card" style="width: 17rem; margin: auto; height: 15rem; margin-top: 20vh">
-        <div class="card-body">
-            <h5 class="card-title" th:text="'Full name: ' + ${user.getLastName() + ' ' + user.getFirstName()}"></h5> <br>
-            <p class="card-text">
-                Email: <span th:text="${user.getEmail()}"></span> <br> <br>
-                City: <span th:text="${user.getCity()}"></span><br>
-            </p>
+<div class="container">
+    <div id="item" th:each="post:${posts}">
+        <div class="card" style="width: 15rem; height: 30rem;">
+            <img th:src="${post.getPhotoSource()}" class="card-img-top" style="height: 20rem;" alt="Photo">
+            <div class="card-container">
+                <h5 th:text="${post.getTitle()}"></h5>
+                <p th:text="${post.getContent()}" class="card-text"></p>
+                <a style="position: absolute; left: 9%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-primary">Details</a>
+<!--                <a style="position: absolute; left: 60%; bottom: 2%" th:href="@{${'/post/' + post.getPostId()}}" class="btn btn-danger">Delete</a>-->
+                <form style="position: absolute; left: 60%; bottom: 2%" action="#" th:action="@{${'/post/delete/' + post.getPostId()}}" method="post" >
+                    <input  class="btn btn-danger" type="submit" value="Delete"/>
+                </form>
+            </div>
         </div>
+        <br> <br>
     </div>
-</div>
     <!--    </div>-->
+</div>
 </body>
 </html>

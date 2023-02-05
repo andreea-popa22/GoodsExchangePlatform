@@ -22,6 +22,9 @@
                     <a class="nav-link active" style="position: relative; left: 78rem" aria-current="page" th:href="@{${'/user/' + currentUser}}">My profile</a>
                 </li>
                 <li class="nav-item" >
+                    <a class="nav-link active" style="position: relative; left: 78rem" aria-current="page" th:href="@{${'/user/' + currentUser + '/posts'}}">My posts</a>
+                </li>
+                <li class="nav-item" >
                     <a class="nav-link active" style="position: relative; left: 80rem" aria-current="page" th:href="@{/logout}">Log out</a>
                 </li>
 
@@ -39,8 +42,7 @@
                 <p>Category: <span th:text="${post.getCategory()}"></span></p>
                 <p>Date posted: <span th:text="${post.getDate().toString().substring(0, 10)}"></span></p>
                 <p th:text="${post.getContent()}" class="card-text"></p>
-                <a class="btn btn-primary" style="display: flex; justify-content: center; ">Request change</a>
-                <br>
+                <a class="btn btn-primary" style="display: flex; justify-content: center; " th:if="${not isAuthor}">Request change</a>                <br>
                 <a class="btn btn-primary" style="display: flex; justify-content: center; " th:href="@{${'/post/' + post.getPostId() + '/chat'}}">Chat with owner</a>
             </div>
         </div>
