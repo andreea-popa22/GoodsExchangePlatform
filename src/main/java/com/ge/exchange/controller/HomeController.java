@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
-@RequestMapping
+@RequestMapping(headers = "Connection!=Upgrade")
 public class HomeController {
     private final UserService userService;
 

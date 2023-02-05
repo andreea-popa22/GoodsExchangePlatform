@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping(value = "/user", headers = "Connection!=Upgrade")
 @CrossOrigin
 public class UserController {
 

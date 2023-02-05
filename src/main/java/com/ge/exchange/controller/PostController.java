@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping(value = "/post", headers = "Connection!=Upgrade")
 @CrossOrigin
 public class PostController {
     @Autowired
