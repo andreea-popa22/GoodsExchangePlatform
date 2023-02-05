@@ -18,7 +18,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping(value = "/post", headers = "Connection!=Upgrade")
 @CrossOrigin
 public class PostController {
     @Autowired
