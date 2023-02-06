@@ -4,10 +4,8 @@ package com.ge.exchange.controller;
 import com.ge.exchange.dto.UserDto;
 import com.ge.exchange.exception.ResourceNotFoundException;
 import com.ge.exchange.mappers.UserMapper;
-import com.ge.exchange.model.Notification;
-import com.ge.exchange.model.Post;
-import com.ge.exchange.model.Request;
-import com.ge.exchange.model.User;
+import com.ge.exchange.model.*;
+import com.ge.exchange.repository.ExchangeRepository;
 import com.ge.exchange.repository.NotificationRepository;
 import com.ge.exchange.repository.PostRepository;
 import com.ge.exchange.repository.RequestRepository;
@@ -22,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.print.attribute.standard.PrinterURI;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,9 @@ public class RequestController {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private ExchangeRepository exchangeRepository;
 
     @PostMapping("/new")
     public String add(@Valid @ModelAttribute("postToChoose") String title, Principal principal, @RequestParam int postId) throws ResourceNotFoundException {
@@ -92,6 +96,11 @@ public class RequestController {
         if (postRepository.findById(requesterPostId).isEmpty() || postRepository.findById(receiverPostId).isEmpty()){
             throw new ResourceNotFoundException("One of the posts in the request has been deleted.");
         }
+
+        Request request = requestRepository.findById(requestId).get();
+        Exchange exchange = new Exchange(request, Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()), "Location", Status.ACCEPTED);
+        exchangeRepository.save(exchange);
+
         postRepository.delete(postRepository.findById(requesterPostId).get());
         postRepository.delete(postRepository.findById(receiverPostId).get());
         //requestRepository.delete(requestRepository.findById(requestId).get());
@@ -106,6 +115,10 @@ public class RequestController {
         User user = userMapper.fromUserDto(userDto);
         Notification notification = new Notification(content, user);
         notificationRepository.save(notification);
+
+        Request request = requestRepository.findById(requestId).get();
+        Exchange exchange = new Exchange(request, null, "", Status.DECLINED);
+        exchangeRepository.save(exchange);
 
         requestRepository.delete(requestRepository.findById(requestId).get());
         return "redirect:/home";

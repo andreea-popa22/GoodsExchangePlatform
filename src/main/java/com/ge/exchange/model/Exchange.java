@@ -26,14 +26,18 @@ public class Exchange {
     @JoinColumn(name = "request_id", referencedColumnName = "request_id")
     private Request request;
 
-    @NotNull
     private Date date;
 
-    @NotBlank
-    @NotNull
     private String location;
 
-    @NotBlank
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Status status;
+
+    public Exchange(Request request, Date date, String location, Status status) {
+        this.request = request;
+        this.date = date;
+        this.location = location;
+        this.status = status;
+    }
 }
