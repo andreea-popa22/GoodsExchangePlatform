@@ -104,6 +104,14 @@ public class PostController {
             model.addAttribute("isAuthor", isAuthor);
             model.addAttribute("post", post);
             model.addAttribute("postId", id);
+            Boolean canDelete = false;
+            Boolean hasAdminRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                    .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+            if (hasAdminRole || isAuthor) {
+                canDelete = true;
+            }
+            System.out.println(canDelete);
+            model.addAttribute("canDelete", canDelete);
             return "post";
         }
         catch (Exception e) {
