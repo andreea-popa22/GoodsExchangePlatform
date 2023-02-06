@@ -43,10 +43,10 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @OneToMany(mappedBy = "requesterPost")
+    @OneToMany(mappedBy = "requesterPost", cascade = CascadeType.REMOVE)
     List<Request> requests1;
 
-    @OneToMany(mappedBy = "receiverPost")
+    @OneToMany(mappedBy = "receiverPost", cascade = CascadeType.REMOVE)
     List<Request> requests2;
 
     public Post(int postId, String title, PostCategory category, Date date, String content, String photoSource, User author) {

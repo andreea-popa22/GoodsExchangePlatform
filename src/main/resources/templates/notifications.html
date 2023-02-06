@@ -51,36 +51,18 @@
     </div>
 </nav>
 <br>
-<h1 class="text-center" style="color: midnightblue">My requests</h1>
+<h1 class="text-center" style="color: midnightblue">Notifications</h1>
 <br>
 <div class="container" style="width: 100%">
-    <div id="item"   th:each="request:${requests}">
+    <div id="item"   th:each="notification:${notifications}">
         <div class="card" style="width: 70vw; height: 10vh;">
             <div class="card-container">
-                <p class="card-text">User sent you a request for the following post
-                    <span style="font-weight: bold;" th:text="${request.getReceiverPost().getTitle()}"></span>
-                    and in exchange they offer you:
-                    <span style="font-weight: bold;" th:text="${request.getRequesterPost().getTitle()}"></span>
-                </p>
-                <a th:href="@{${'/post/' + request.getRequesterPost().getPostId()}}" class="btn btn-warning">Their post</a>
-                <a th:href="@{${'/post/' + request.getReceiverPost().getPostId()}}" class="btn btn-warning">Your post</a>
-                <br><br><br>
-                <form th:action="@{/request/accept}" method="post">
-                    <input type="hidden" name="requesterPostId" th:value="${request.getRequesterPost().getPostId()}" />
-                    <input type="hidden" name="receiverPostId" th:value="${request.getReceiverPost().getPostId()}" />
-<!--                    <input type="hidden" name="requesterId" th:value="${request.getRequester().getUserId()}" />-->
-<!--                    <input type="hidden" name="receiverId" th:value="${request.getReceiver().getUserId()}" />-->
-                    <input type="hidden" name="requestId" th:value="${request.getRequestId()}" />
-
-                    <button style="position: absolute; left: 50%; bottom: 2%" type="submit" class="btn btn-success">Accept</button>
+                <br>
+                <p class="card-text" th:text="${notification.getContent()}"> </p>
+                <form style="position: absolute; left: 60%; bottom: 2%" th:action="@{${'/notification/delete/' + notification.getNotificationId()}}" method="post" >
+                    <input  class="btn btn-danger" type="submit" value="Delete"/>
                 </form>
-
-                <form th:action="@{/request/decline}" method="post">
-                    <input type="hidden" name="requestId" th:value="${request.getRequestId()}" />
-                    <input type="hidden" name="requesterPostId" th:value="${request.getRequesterPost().getPostId()}" />
-
-                    <button style="position: absolute; left: 70%; bottom: 2%" type="submit" class="btn btn-danger">Decline</button>
-                </form>
+                <br>
             </div>
         </div>
         <br> <br>

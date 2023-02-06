@@ -54,17 +54,17 @@ public class UserController {
         return "profilePosts.html";
     }
 
-    @GetMapping("/{id}/requests")
-    public String get(@PathVariable(value = "id") int id, Model model, Principal principal) throws ResourceNotFoundException {
+    @GetMapping("/requests")
+    public String get(Model model, Principal principal) throws ResourceNotFoundException {
         try {
-
-            List<Request> requests = requestService.getReceivedRequests(id);
+            UserDto user = userService.findUserByEmail(principal.getName());
+            List<Request> requests = requestService.getReceivedRequests(user.getUserId());
             model.addAttribute("requests", requests);
-            model.addAttribute("currentUser", id);
+            model.addAttribute("currentUser", user.getUserId());
             return "userRequests";
         }
         catch (Exception e) {
-            throw new ResourceNotFoundException("Request not found with this id: " + id);
+            throw new ResourceNotFoundException("Request not found with this email: " + principal.getName());
         }
     }
 

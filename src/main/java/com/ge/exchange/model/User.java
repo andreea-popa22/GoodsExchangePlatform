@@ -53,4 +53,7 @@ public class User {
 
     @OneToMany(mappedBy = "author")
     List<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    List<Notification> notifications;
 }
