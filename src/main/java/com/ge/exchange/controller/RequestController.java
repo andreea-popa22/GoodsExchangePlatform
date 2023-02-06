@@ -103,7 +103,8 @@ public class RequestController {
 
         postRepository.delete(postRepository.findById(requesterPostId).get());
         postRepository.delete(postRepository.findById(receiverPostId).get());
-        //requestRepository.delete(requestRepository.findById(requestId).get());
+        // no need to delete the request manually, as it is deleted on cascade
+
         return "redirect:/home";
     }
 
@@ -115,10 +116,6 @@ public class RequestController {
         User user = userMapper.fromUserDto(userDto);
         Notification notification = new Notification(content, user);
         notificationRepository.save(notification);
-
-        Request request = requestRepository.findById(requestId).get();
-        Exchange exchange = new Exchange(request, null, "", Status.DECLINED);
-        exchangeRepository.save(exchange);
 
         requestRepository.delete(requestRepository.findById(requestId).get());
         return "redirect:/home";
