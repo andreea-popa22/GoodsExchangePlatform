@@ -71,7 +71,8 @@ public class UserServiceImpl implements UserService {
     public UserDto findUserByEmail(String email) throws ResourceNotFoundException {
         Optional<User> user = userRepository.findUserByEmail(email);
         if (user.isEmpty()) {
-            throw new ResourceNotFoundException("User with requested email does not exist.");
+//            throw new ResourceNotFoundException("User with requested email does not exist.");
+            return null;
         }
         return userMapper.toUserDto(user.get());
     }

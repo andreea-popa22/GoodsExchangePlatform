@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    @NotNull
+
     private Integer userId;
 
     @NotEmpty(message = "Email should not be empty")
@@ -37,7 +37,5 @@ public class UserDto {
     @NotNull
     private String city;
 
-    @NotBlank
-    @NotNull
     private String role;
 }
